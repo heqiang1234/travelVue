@@ -8,9 +8,8 @@ const API = {
     LOGOUT:api+'/User/LoginOut'//退出登录
   },
   JOBS:{
-    // GETJOBLIST:api+'/Position/selectAllPosition', //职位分页
     GETJOBLIST:api+'/Scenic/ShowScenicByPage', //景点分页
-    SEARCHJOBS:api+'/Scenic/SearchScenic',  //关键字搜索职位
+    SEARCHJOBS:api+'/Scenic/SearchScenic',  //关键字搜索景点
     DETAILJOB:api+'/ScenicDetail/showScenicDetail', //景点详情页
   },
   EMP:{
@@ -24,7 +23,11 @@ const API = {
   },
   OTHER:{
     GETADIMG:api+'/Photo/ShowScenicDetailImgAd', //首页广告图片
-    GETBANNER:api+'/Photo/ShowScenicDetailImg'//轮播图
+    GETBANNER:api+'/Photo/ShowScenicDetailImg',//轮播图
+    GETDETAILBANNER:api+'/Photo/ShowScenicDetailImgByScenic_Id',//详情页轮播图
+    GETDETAILBANNER_SP:api+'/Photo/ShowScenicDetailImgByScenic_Id_SP',//详情页特色看点
+    GETDETAILTip:api+'/ScenicTip/showScenicTip'//详情页小贴士
+    
   },
   VERIFYCODE:{
     GETCODE:api+'/VerifyCode/Kaptcha'

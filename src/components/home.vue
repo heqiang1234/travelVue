@@ -69,7 +69,7 @@
                 :key="index"
                 class="vip-companys"
               >
-                <img :src="item.scenic_detail_img_url" title="公司" alt="广告招聘">
+                <img :src="item.scenic_detail_img_url" title="景点" alt="广告招聘">
               </div>
             </div>
           </div>
@@ -221,7 +221,7 @@
             </span>
           </div>
           <div class="line-form">
-            <span class="line-item">求职意向</span>
+            <span class="line-item">兴趣爱好</span>
             <span class="line-input">
               <el-input v-model="userInfo.want" placeholder="请输入内容"></el-input>
             </span>

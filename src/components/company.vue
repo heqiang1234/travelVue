@@ -1,99 +1,206 @@
 <template>
   <div class="warp">
-    <Header></Header>
-    <div class="company-body">
-      <div v-if="careerInfo" class="company-inf">
-        <!-- <div class="logo-box">
-          <img :src="careerInfo.logo" alt>
-        </div> -->
-        <div class="com-titles">
-          <p class="com-name">{{careerInfo.scenic_detail_name}}</p>
-          <p class="com-mesg">
-            <i class="el-icon-location-outline"></i>
-            <span class="mesgs">{{careerInfo.scenic_detail_address}}</span>
-            <i class="el-icon-user-solid"></i>
-            <span class="mesgs">{{careerInfo.scenic_detail_level}}</span>
-            <i v-if="careerInfo.scenic_detail_intro" class="el-icon-suitcase"></i>
-            <span
-              v-if="careerInfo.scenic_detail_intro"
-              class="mesgs"
-            >{{careerInfo.scenic_detail_intro}}}</span>
-          </p>
-        </div>
-      </div>
-      <!-- <div class="co-msg">
-        <div v-if="careerInfo.company" class="company-talk">
-          <div class="talk-title">宣讲会信息</div>
-          <span class="talk-mesg">宣讲单位：{{careerInfo.company_name}}</span>
-          <span class="talk-mesg">宣讲时间：{{careerInfo.meet_day}} {{careerInfo.meet_time}}</span>
-          <span class="talk-mesg">所在学校：{{careerInfo.school_name}}</span>
-          <span class="talk-mesg">宣讲地点：{{careerInfo.address}}</span>
-          <span class="talk-mesg"></span>
-          <div class="talk-title">单位简介</div>
-          <span class="talk-mesg">{{careerInfo.company.companyProfile}}</span>
-          <div class="talk-title">招聘职位</div>
-          <div v-for="(item) in careerInfo.positionList" :key="item.positionID" class="com-post">
-            <div class="post-head">
-              <div
-                @click="linkTo({name:'post',params:{id:item.positionID}})"
-                class="post-name"
-              >{{item.position_name}}</div>
-              <div class="post-pay">
-                <i class="el-icon-coin"></i>
-                {{item.positionWage}}
-              </div>
-              <div class="need-people">
-                <i class="el-icon-user-solid"></i>
-                {{item.num}}
-              </div>
+   <Header></Header>
+
+    <div  class="mp-description">
+        <div class="mp-description-slider" id="slide">
+            <div id="mp-slider-content" class="mp-description-imgs">
+              <!--轮播图  -->              
+             <el-carousel >
+               <el-carousel-item v-for="item in banners" :key="item.scenic_detail_Img_id" class="el-carousel-width">
+              <el-image fit="cover " :src="item.scenic_detail_img_url" />
+            </el-carousel-item>
+              </el-carousel>
+              
             </div>
-            <div class="post-body">
-              <div class="post-profe">{{item.professionals}}</div>
-              <div class="degree">
-                <i class="el-icon-school"></i> 本科及以上
+            <div id="mp-slider-prev" class="mp-slider-button pngfix"></div>
+            <div id="mp-slider-next" class="mp-slider-button pngfix"></div>
+            <div id="mp-slider-page" class="mp-slider-page"></div>
+        </div>
+        <div class="mp-description-detail">
+            <div class="mp-description-view">
+                <span class="mp-description-name" title="圆明园">{{careerInfo.scenic_detail_name}}</span><span class="mp-description-level">{{careerInfo.scenic_detail_level}}</span>
+                <a href="javascript:void(0);" id="mp-description-correcticon" class="mp-description-correcticon"></a>
+            </div>
+            <div class="mp-description-onesentence">{{careerInfo.scenic_detail_onesentence}}</div>
+            <div class="mp-description-location">
+                <span class="mp-sprites1-icon pngfix mp-description-locationicon"></span><span class="mp-description-title">位&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;置：</span><span class="mp-description-address" title="北京市海淀区清华西路28号">{{careerInfo.scenic_detail_address}}</span><a href="#mp-traffic" class="map-icon pngfix" data-click="mpdetail_map">查看地图</a>
+            </div>
+            <div class="mp-description-comments" style="display:block">
+                <span class="mp-sprites2-icon pngfix mp-description-commentsicon"></span><span class="mp-description-title">用户点评：</span><span id="mp-description-commentscore"><span>{{careerInfo.scenic_detail_commentscore}}</span>/5分</span>
+                <span class="mp-description-commentCount"><a href="#mp-comments">46091条评论</a></span>
+            </div>
+            
+            <div  id="mp-description-weather" class="mp-description-weather">
+                <span class="pngfix mp-description-weathericon" data-type="晴转多云"></span><span class="mp-description-title">晴转多云</span><span class="mp-description-val">17 ~ 4℃</span>
+                <div class="mp-description-more">
+                    <span class="mp-description-narrow"></span>
+                    <table class="mp-description-table" id="weathertable-busy">
+                        <tr>
+                            <td width="60">明天</td>
+                            <td width="78">晴转多云 </td>
+                            <td>24 ~ 7℃</td>
+                        </tr>
+                        <tr>
+                            <td width="60">后天</td>
+                            <td width="78"> 晴 </td>
+                            <td>19 ~ 3℃</td>
+                        </tr>
+                        <tr>
+                            <td width="60">大后天</td>
+                            <td width="78">  晴 </td>
+                            <td>22 ~ 6℃</td>
+                        </tr>                                  
+                    </table>
+                </div>
+            </div>           
+            <div class="mp-description-comfort" id="mp-detail-item-comfort"></div>
+            <div class="mp-description-price">
+                    <span class="mp-description-qunar-price">
+                        <em>{{careerInfo.scenic_detail_price}}</em>
+                    </span>   
+                    <a href="test.html" class="mp-description-bookingbtn ">关注</a>            
+            </div>
+        </div>
+    </div>   
+    <div class="mp-charact">
+        <div  class ="mp-discrib">
+            <div class="mp-charact-intro">
+                <span class="mp-charact-qutoicon pngfix"></span>
+                    <div class="mp-charact-desc">
+                          <p>圆明园位于北京市西北部郊区，海淀区东部。是一座举世文明的皇家园林。原为清代一座大型皇家御苑，占地约5200亩，
+                          平面布局呈倒置的品字形，圆明园由圆明园、长春园、绮春园三园组成，总面积达350公顷。圆明园的陆上建筑面积和故宫一样大，
+                          水域面积又等于一个颐和园，总面积等于8.5个紫禁城。</p><p>圆明园汇集了当时江南若干名园胜景的特点，
+                              融中国古代造园艺术之精华，以园中之园的艺术手法，将诗情画意融化于千变万化的景象之中。圆明园的南部为朝廷区，
+                              是皇帝处理公务之所。其余地区则分布着40个景区，其中有50多处景点直接模仿外地的名园胜景，如杭州西湖十景，
+                              不仅模仿建筑，连名字也照搬过来。更有趣的是，圆明园中还建有西式园林景区，比较有代表性的就是“大水法”，
+                              是一座西洋喷泉，还有万花阵迷宫以及海晏堂等，都具有意大利文艺复兴时期的风格。圆明园于咸丰十年，即1860年的10月，
+                              遭到英法联军的洗劫和焚毁。1988年建成圆明园遗址公园，仅存山形水系、园林格局和建筑基址，假山叠石、雕刻残迹仍然可见。
+                              在“西洋楼”旧址建有园史展览馆，供人瞻仰凭吊，令人痛定思痛。</p>
+                    </div>
+            </div>
+            <div class="mp-charact-time">
+                <div class="mp-charact-content" v-for="item in tip_sj" :key="item.scenic_tip_id">
+                     <span class="mp-charact-timeicon pngfix"></span>
+                     <div class="mp-charact-label">{{item.scenic_detail_tip_title}}</div>
+                     <div class="mp-charact-desc">
+                          {{item.scenic_detail_tip_desc}} 
+                     </div>
+                </div>
+                
+            </div>
+        </div>
+        <h2 class="mp-characteristic-title">特色看点</h2> 
+        <div class ="mp-discrib" v-for="item in Img_detail" :key="item.scenic_detail_Img_id">                   
+                <div class="mp-charact-event">                                  
+                         <div class="mp-event">
+                            <img :src="item.scenic_detail_img_url"/>
+                                
+                                 <div class="mp-event-bg"></div>
+                                <div class="mp-event-desc">
+                                  <h3>{{item.scenic_detail_img_title}}</h3>
+                                  <p>{{item.scenic_detail_img_desc}}</p>
+                                </div>
+                            
+                          </div>
+                </div>
+          </div>   
+            <div class="mp-charact-littletips">
+              <div class="mp-littletips">
+                <h2 class="mp-littletips-title pngfix">入园公告</h2>
+                     <div v-for="item in tip_gg" :key="item.scenic_tip_id">
+                       <div class="mp-littletips-item">
+                        <span class="mp-littletips-icon pngfix"></span>
+                        <div class="mp-littletips-itemtitle">{{item.scenic_detail_tip_title}}</div>
+                        <div class="mp-littletips-desc">{{item.scenic_detail_tip_desc}}</div>
+                       </div>
+                    </div>
               </div>
+           </div>
+        <div class="mp-charact-littletips">
+            <div class="mp-littletips">
+                <h2 class="mp-littletips-title pngfix">小贴士</h2>
+                 <div v-for="item in tip_ts" :key="item.scenic_tip_id">
+                    <div class="mp-littletips-item">
+                        <span class="mp-littletips-icon pngfix"></span>
+                        
+                            <span class="mp-littletips-itemcover"></span>
+                        
+                        <div class="mp-littletips-itemtitle">{{item.scenic_detail_tip_title}}</div>
+                        <div class="mp-littletips-desc">
+                                    <!-- <p>1、除了在废墟上留影，其实圆明园还有大片的荒野林地和湖水，风景极端凄美，很适合徒步和野游爱好者的趣味。</p>
+                                   <p>2、不要被各种奇怪的游乐场影响心情。</p> -->
+                                    {{item.scenic_detail_tip_desc}}
+                         </div>
+                     </div>
+                 </div>
             </div>
-          </div>
         </div>
-        <div class="com-mesgs">
-          <a class="com-title" href="#">
-            <div class="com-logo">
-              <img :src="careerInfo.company.company_logo" />
-            </div>
-            <p></p>
-          </a>
-          <div class="com-other">
-            <p>领域：</p>
-            <p>规模：{{careerInfo.company.company_size}}</p>
-            <p>地址：{{careerInfo.company.company_address}}</p>
-          </div>
-          <div class="com-map">
-            <a
-              class="map-img"
-              target="_blank"
-              :href="careerInfo.company.map_link"
-              :style="{backgroundImage:'url('+careerInfo.company.image_link+')'}"
-            ></a>
-          </div>
-        </div>
-      </div> -->
+    </div>
+    <div class="mp-traffic" id="mp-traffic">
+          <h2>地图与交通</h2>
+          <div class="mp-traffic-map" id="mp-traffic-map"></div>
+          <div id="mp-traffic-button" class="mp-traffic-show" >查看路线</div>
+              <div id="mp-traffic-route">
+                  <div id="mp-traffic-detail"></div>
+                  <div class="cover_top"></div>
+                  <div class="cover_bottom"></div>
+              </div>
+          
+              <div class="mp-traffic-transfer">                 
+                  <div v-for="item in tip_jt" :key="item.scenic_tip_id">
+                  <div class="mp-transfer-title">{{item.scenic_detail_tip_title}}</div>
+                  <div class="mp-transfer-desc">
+                     {{item.scenic_detail_tip_desc}}
+                  </div>
+                  </div>                                          
+              </div>
+          
     </div>
     <Footsy></Footsy>
   </div>
 </template>
 <script>
-import Header from "./common/header";
-import Footsy from "./common/footsy";
+import Header from './common/header.vue'
+import Searcher from './common/searcher.vue'
+import Footsy from "./common/footsy"
 export default {
-  components: { Header, Footsy },
+   components: { Header, Footsy },
   created() {
-    console.log(this.$route.params);
+    // console.log(this.$route.params);
+    // console.log("11");
     if (this.$route.params.id) {
       this.scenic_spot_id = this.$route.params.id;
-      this.getScenicDetail();
     }
+    this.getScenicDetail();
+    this.getBanner();
+    this.getImg_desc();
+    this.getTip_SJ();
+    this.getTip_GG();
+    this.getTip_TS();
+    this.getTip_JT();
   },
   methods: {
+    formatInfo(obj) {
+      //格式化内容信息
+      console.log(obj);
+      if (obj.scenic_detail_tip_desc) {
+        obj.scenic_detail_tip_desc = obj.scenic_detail_tip_desc
+          .replace(/\n|\r\n/g, "<br/>")
+          .replace(/[;；]/g, "；<br/>")
+          .replace(/[-]/g, "<br/>")
+          .replace("[' ']+", "<br/>")
+          .replace(/['\u3002']/g, "。<br>")
+          .replace("<br>s*(<br>s*)+", "<br/>");
+      }
+      // if (obj.company.companyProfile) {
+      //   obj.company.companyProfile = obj.company.companyProfile.replace(
+      //     /\n|\r\n/g,
+      //     "<br/>"
+        // );
+     // }
+      return obj;
+    },
     getScenicDetail() {
       this.axios({
         url: this.API.EMP.DETAILEMP,
@@ -101,252 +208,511 @@ export default {
           S_ID: this.scenic_spot_id
         }
       }).then(res => {
-        console.log(res);
         this.careerInfo = res.data.extendInfo.pagebean;
-        console.log(this.careerInfo)
+      });
+    },
+     getBanner(){
+      return this.axios({
+        url:this.API.OTHER.GETDETAILBANNER,
+        params: {
+            S_ID: this.scenic_spot_id
+          }
+      }).then(res => {
+        this.banners = res.data.extendInfo.list;
+      });
+    },
+    getTip_SJ(){
+      return this.axios({
+        url:this.API.OTHER.GETDETAILTip,
+        params: {
+            S_SIGN: "1",
+            S_ID: this.scenic_spot_id
+          }
+      }).then(res => {
+        console.log(res);
+        this.tip_sj = res.data.extendInfo.pagebean;
+      });
+    },
+    getTip_GG(){
+      return this.axios({
+        url:this.API.OTHER.GETDETAILTip,
+        params: {
+            S_SIGN: "2",
+            S_ID: this.scenic_spot_id
+          }
+      }).then(res => {
+           this.tip_gg = res.data.extendInfo.pagebean;
+      });
+      // )
+    },
+    getTip_TS(){
+      return this.axios({
+        url:this.API.OTHER.GETDETAILTip,
+        params: {
+            S_SIGN: "3",
+            S_ID: this.scenic_spot_id
+          }
+      }).then(res => {
+        console.log(res);
+        this.tip_ts = res.data.extendInfo.pagebean;
+      });
+    },
+     getTip_JT(){
+      return this.axios({
+        url:this.API.OTHER.GETDETAILTip,
+        params: {
+            S_SIGN: "4",
+            S_ID: this.scenic_spot_id
+          }
+      }).then(res => {
+        console.log(res);
+        this.tip_jt = res.data.extendInfo.pagebean;
+      });
+    },
+     getImg_desc(){
+        return this.axios({
+        url:this.API.OTHER.GETDETAILBANNER_SP,
+        params: {
+            S_ID: this.scenic_spot_id
+          }
+      }).then(res => {
+        this.Img_detail = res.data.extendInfo.list;
       });
     }
   },
   data() {
     return {
-      scenic_spot_id: 0,
-      careerInfo: {}
+      // scenic_spot_id: 0,
+      careerInfo: {},
+       banners:[],
+       Img_detail: {},
+       tip_sj:{},
+       tip_gg:{},
+       tip_ts:{},
+       tip_jt:{}
     };
   }
 };
+</script>
 </script>
 <style scoped>
 .warp {
   width: 100%;
   min-width: 1080px;
+  
 }
-
-.company-body {
-  width: 90%;
-  min-width: 1080px;
-  margin: 0px auto;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-}
-.company-inf {
-  height: 167px;
-  width: 70%;
-  margin: 0px auto;
-  box-sizing: border-box;
-  margin-top: 20px;
-  padding: 25px 44px 32px 37px;
-  display: flex;
-  flex-direction: row;
-  position: relative;
-}
-.logo-box {
-  height: 100px;
-  width: 100px;
-  padding: 5px;
-  display: inline-block;
-  line-height: 100px;
-}
-.logo-box > img {
-  width: 100px;
-}
-.com-titles {
-  height: 100px;
-  width: 500px;
-  padding: 5px 0px 5px 100px;
-  display: inline-block;
-}
-.com-name {
-  max-width: 740px;
-  line-height: 26px;
-  padding-top: 10px;
-  font-size: 22px;
-  color: #4c4c4c;
-}
-.com-mesg {
-  font-size: 15px;
-  color: #a6a6a6;
-  line-height: 26px;
-  margin-top: 40px;
-  max-width: 740px;
-}
-.mesgs {
-  color: #666;
-  font-size: 14px;
-  line-height: 26px;
-  padding: 0px 30px 0px 5px;
-}
-.title {
-  position: absolute;
-  height: 50px;
-  width: 200px;
-  right: 100px;
-  background-color: #0287ee;
-  font-size: 26px;
-  font-family: "微软雅黑";
-  text-align: center;
-  line-height: 50px;
-}
-.co-msg {
-  width: 100%;
-  display: flex;
-  margin-top: 10px;
-  padding-top: 10px;
-  border-top: #eee solid 1px;
-}
-.com-right {
-  width: 30%;
-  box-sizing: border-box;
-  height: 400px;
-  border-left: 1px solid #eee;
-}
-.company-talk {
-  width: 70%;
-  box-sizing: border-box;
-  padding: 0px 25px;
-}
-.talk-title {
-  height: 30px;
-  line-height: 30px;
-  border-left: 2px solid red;
-  padding-left: 5px;
-  font: 20px "微软雅黑";
-  margin-top: 20px;
-}
-.talk-mesg {
-  padding-left: 10px;
-  display: block;
-  margin-top: 20px;
-}
-.com-mesgs {
-  width: 25%;
-  box-sizing: border-box;
-  padding: 0px 20px;
-  border-left: 1px solid #eee;
-}
-.com-title {
-  display: block;
-  margin-top: 15px;
-  text-decoration: none;
-  color: orangered;
-  text-align: center;
-  border-bottom: 1px solid #eee;
-}
-.com-title > p {
-  margin: 10px 0px;
-}
-.com-logo {
-  width: 84px;
-  height: 84px;
-  display: flex;
-  margin: 0 auto;
-  overflow: hidden;
-  align-items: center;
-  box-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
-}
-.com-logo> img {
-  width: 84px;
-}
-.com-other {
-  padding: 20px 0px;
-}
-.com-other > p {
-  color: #666;
-  padding: 3px 0;
-}
-.com-map {
-  width: 255px;
-  height: 255px;
-  margin: 10px auto;
-  overflow: hidden;
-  border-radius: 5px;
-  box-shadow: 0 0 1px rgba(0, 0, 0, 0.3);
-}
-.tocareer-btn {
-  width: 185px;
-  margin: 10px auto;
-}
-.map-img {
-  display: block;
+.el-carousel-width{
   width: 100%;
   height: 100%;
 }
-.com-credit {
-  width: 255px;
-  height: 185px;
-  margin: 20px auto;
-  background-image: url("../assets/celify.png");
-  background-repeat: no-repeat;
-  background-size: 255px;
-  border-radius: 5px;
-  text-align: center;
+.el-carousel__item:nth-child(2n) {
+  background-image: url('https://imgs.qunarzz.com/sight/p0/1908/e0/e04946d2227ba776a3.img.jpg_710x360_c6e077b5.jpg');
+  }
+  
+.el-carousel__item:nth-child(2n+1) {
+  background-image: url('https://imgs.qunarzz.com/sight/p0/1910/28/280368c977a29ccfa3.img.jpg_710x360_84e74007.jpg');
 }
-.com-grade {
-  padding-top: 50px;
-  color: #e98f36;
-  font-size: 24px;
+.mp-description{
+    position: relative;
+    margin: 15px auto 0 auto;
+    border: 1px solid #e5e5e5;
+    width: 1190px;
+    height: 386px;
+    color: #333;
 }
-.com-credit > p {
-  margin-bottom: 10px;
+.mp-description-slider {
+    position: absolute;
+    left: 15px;
+    top: 13px;
+    width: 710px;
+    height: 360px;
+    overflow: hidden;
+}      
+.mp-description-detail {
+    position: absolute;
+    right: 30px;
+    top: 13px;
+    width: 416px;
+    height: 362px;
+    overflow: hidden;
+} 
+.mp-description-view {
+    line-height: 40px;
+    height: 80px;
 }
-.com-grade-text {
-  font-size: 18px;
+.mp-description-name {
+    font-size: 26px;
+    color: #1295ad;
 }
-.com-text {
-  font-size: 14px;
+.mp-description-level {
+    font-size: 20px;
+    color: #535353;
 }
-.com-text > span {
-  color: #e98f36;
+.mp-description-onesentence {
+    font-size: 18px;
+    color: #666;
 }
-.com-text > a {
-  color: #1e649f;
-  text-decoration: none;
-  font-size: 13px;
+.mp-description-onesentence {
+    line-height: 42px;
+    vertical-align: middle;
 }
-.com-text > a:hover {
-  text-decoration: #1e649f underline;
+.mp-description-locationicon {
+    width: 17px;
+    height: 22px;
+    position: relative;
+    background-position: 0 0;
+    margin-right: 10px;
 }
-.com-post {
-  border-bottom: 1px dashed #ddd;
-  padding: 5px 0;
-  margin: 10px 0;
+.mp-sprites1-icon {
+    background: url(../img/location.png);
+    display: inline-block;
 }
-.post-head {
-  position: relative;
-  height: 30px;
-  line-height: 30px;
-  margin-top: 15px;
-  display: flex;
-  justify-content: space-between;
-  font-family: "微软雅黑";
+.mp-description-address {
+    display: inline-block;
+    width: 200px;
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: normal;
 }
-.post-profe {
-  max-width: 40%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+.map-icon {
+    display: inline-block;
+    padding: 0 10px;
+    height: 28px;
+    line-height: 28px;
+    border: 1px solid #b2b2b2;
+    margin-left: 10px;
+    color: #333;
+    font-size: 12px;
+    text-decoration: none;
 }
-.post-name {
-  max-width: 30%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  color: rgb(143, 72, 31);
-  font-size: 18px;
-  cursor: pointer;
+.map-icon:hover{
+    color: #eee;
+    background-color: #555;
+
 }
-.post-pay {
-  position: absolute;
-  left: 45%;
-  color: orangered;
+.mp-description-comments {
+    line-height: 42px;
+    vertical-align: middle;
 }
-.need-people {
-  width: 100px;
+.mp-description-commentsicon {
+    width: 17px;
+    height: 21px;
+    position: relative;
+    background-position: 0 -43px;
+    margin-right: 10px;
 }
-.post-body {
-  margin-top: 10px;
-  display: flex;
-  justify-content: space-between;
+.mp-sprites2-icon {
+    background: url(../img/list.png);
+    display: inline-block;
 }
-.post-degree {
-  width: 100px;
+#mp-description-commentscore span {
+    font-size: 24px;
+    color: #f60;
 }
+.mp-description-comments{
+    line-height: 42px;
+    vertical-align: middle;
+}
+.mp-description-commentCount a {
+    color: #3ab0ff !important;
+    font-size: 14px;
+    vertical-align: bottom;
+    text-decoration: none;
+}
+.mp-description-weather {
+    line-height: 42px;
+    vertical-align: middle;
+}
+.mp-description-weathericon {
+    margin-right: 10px;
+    width: 22px;
+    height: 22px;
+    display: inline-block;
+    position: relative;
+    background-image: url(../img/sun.png);
+}
+.mp-description-title {
+    color: #666;
+    font-size: 14px;
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+    padding-right: 10px;
+}
+.mp-description-val {
+    vertical-align: middle;
+    font-size: 12px;
+}
+.mp-description-weather:hover .mp-description-more{
+    display: block;
+}
+.mp-description-more {
+    display: none;
+    font-size: 14px;
+    position: absolute;
+    z-index: 999;
+    left: 0;
+    top: 235px;
+    border: 3px solid #dfdfdf;
+    padding: 5px 0 5px 12px;
+    width: 235px;
+    background-color: #fff;
+    text-align: left;
+}
+.mp-description-narrow {
+    background-color: #000;
+    position: absolute;
+    width: 0;
+    height: 0;
+    line-height: 0;
+    font-size: 0;
+    overflow: hidden;
+    left: 10px;
+    top: -10px;
+    z-index: 5;
+    border-bottom: 7px solid #dfdfdf;
+    border-left: 7px solid #fff;
+    border-right: 7px solid #fff;
+}
+.mp-description-table {
+    width: 100%;
+    font-size: 12px;
+    line-height: 20px;
+    border-collapse: collapse;
+    border-spacing: 0;
+    text-align: left;
+    border-color: grey;
+}
+.mp-description-price {
+    width: 418px;
+    height: 42px;
+    line-height: 42px;
+    font-size: 20px;
+    position: absolute;
+    bottom: 0;
+}
+.mp-description-price span {
+    font-size: 12px;
+    color: #666;
+    margin-right: 10px;
+}
+.mp-description-qunar-price{
+    vertical-align: middle;
+}
+.mp-description-qunar-price em {
+    margin-right: 5px;
+    font-size: 40px;
+    color: #f60;
+    font-style: inherit;
+}
+.mp-description-bookingbtn {
+    width: 130px;
+    height: 42px;
+    cursor: pointer;
+    background-color: #f60;
+    color: #fff;
+    text-align: center;
+    display: inline-block;
+    line-height: 42px;
+    font-size: 18px;
+    position: absolute;
+    right: 0;
+    text-decoration: none;
+}
+.mp-charact-intro {
+    padding: 70px 0 30px 70px;
+    font-size: 14px;
+    position: relative;
+    width: 920px;
+}
+.mp-charact-qutoicon {
+    width: 30px;
+    height: 30px;
+    background: url(../img/yinhao.png)  no-repeat;
+    position: absolute;
+    top: 75px;
+    left: 20px;
+    display: inline-block;
+}
+.mp-charact-time {
+    padding: 0 0 30px 70px;
+    font-size: 14px;
+    position: relative;
+    width: 920px;
+}
+.mp-charact-content {
+    margin-bottom: 15px;
+}
+.mp-charact-timeicon {
+    width: 32px;
+    height: 32px;
+    background: url(../img/time.png) no-repeat;
+    position: absolute;
+    top: 0;
+    left: 20px;
+    display: inline-block;
+}
+.mp-charact-label {
+    font-weight: bold;
+    color: #333;
+}
+.mp-charact-desc p {
+    line-height: 30px;
+}
+.mp-characteristic-title {
+    margin: 10px auto;
+    font-size: 16px;
+    color: #333;
+    font-weight: bold;
+    text-align: center;
+}
+.mp-charact-event {
+    overflow: hidden;
+}
+.mp-discrib{
+    margin: 0 auto;
+    width: 990px;
+}
+.mp-event {
+    position: relative;
+    margin: 15px 0;
+    width: 990px;
+    height: 390px;
+}
+.mp-event-bg {
+    width: 210px;
+    height: 390px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    background-color: #000;
+    opacity: .5;
+    z-index: 0;
+}
+.mp-event img {
+    width: 990px;
+    height: 390px;
+}
+.mp-event-desc {
+    padding: 35px 25px 20px 30px;
+    width: 155px;
+    height: 335px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    color: #fff;
+    z-index: 1;
+}
+.mp-event-desc h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+.mp-event-desc p {
+    font-size: 14px;
+    line-height: 24px;
+}
+.mp-charact-littletips {
+    border-left: 1px solid #e1e1e1;
+    position: relative;
+    width: 990px;
+    left: 20px;
+    margin: 20px auto 0;
+}
+.mp-littletips-title {
+    position: relative;
+    left: -17px;
+    padding-left: 40px;
+    height: 65px;
+    line-height: 50px;
+    font: 400 20px/48px Microsoft Yahei,Arial,sans-serif;
+    background: url(//simg1.qunarzz.com/piao/images/detail_v4/sprite2.png) 0 -410px no-repeat;
+}
+.mp-littletips-item {
+    position: relative;
+    zoom: 1;
+    overflow: hidden;
+    padding-bottom: 20px;
+    left: -20px;
+    width: 990px;
+}
+.mp-littletips-icon {
+    z-index: 2;
+    position: absolute;
+    width: 38px;
+    height: 38px;
+    left: 0;
+    top: 0;
+    background: url(//simg1.qunarzz.com/piao/images/detail_v4/sprite2.png) 0 -480px no-repeat;
+}
+.mp-littletips-itemtitle {
+    float: left;
+    margin: 6px 0 0 48px;
+    width: 145px;
+    font-size: 18px;
+    display: inline-block;
+}
+.mp-littletips-desc {
+    width: 736px;
+    float: left;
+    margin-left: 10px;
+    font-size: 16px;
+    padding: 15px 20px;
+    border: 1px solid #ddd;
+}
+.mp-littletips-item p {
+    line-height: 28px;
+    font-size: 14px;
+}
+.mp-traffic {
+    position: relative;
+    margin: 20px auto 0;
+    width: 990px;
+}
+.mp-traffic h2 {
+    line-height: 38px;
+    font-size: 16px;
+    color: #333;
+    font-weight: bold;
+    text-align: center;
+}
+.mp-traffic-map {
+height: 500px;
+border: 1px solid #d5d5d5;
+width: 990px;
+overflow: hidden;
+position: relative;
+z-index: 0;
+background-color: rgb(243, 241, 236);
+color: rgb(0, 0, 0);
+text-align: left;
+}
+.mp-traffic-show {
+    position: absolute;
+    z-index: 1;
+    top: 12px;
+    right: 10px;
+    padding-right: 20px;
+    font-size: 12px;
+    background-position: -267px -199px;
+    background: url(//simg4.qunarzz.com/piao/images/detail_v3/sprites_iconlight_2.png) no-repeat;
+    cursor: pointer;
+}
+.mp-traffic-transfer {
+    padding: 20px 40px;
+    background-color: #edefed;
+    width: 910px;
+    margin: 0 auto;
+    font-size: 14px;
+    margin-top: 10px;
+}
+.mp-transfer-title {
+    font-weight: bold;
+    margin: 15px 0;
+}
+.mp-transfer-desc {
+    line-height: 24px;
+}
+
 </style>
