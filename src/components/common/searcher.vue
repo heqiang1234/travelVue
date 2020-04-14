@@ -2,8 +2,8 @@
   <div @keyup.enter="search"  class="search">
       <div class="search-container">
         <div class="search-input">
-          <el-input placeholder="请输入内容" v-model="key" class="input-with-select">
-            <el-select
+          <el-input placeholder="请输入内容"  v-model="searchInfo.searchContent" class="input-with-select">
+            <!-- <el-select
                 style="width:120px;margin-left:15px;"
                 placeholder="选择搜索内容"
                 slot="prepend"
@@ -11,8 +11,8 @@
               >
                 <el-option label="搜岗位" value = 1></el-option>
                 <el-option label="搜宣讲会" value = 2></el-option>
-              </el-select>
-            <el-button style="width:130px;" slot="append" icon="el-icon-search"></el-button>
+              </el-select> -->
+            <el-button  @click="search" style="width:130px;" slot="append" icon="el-icon-search"></el-button>
           </el-input>
         </div>
         <div  @click="getClassfyJobs" class="search-likely">
@@ -31,24 +31,22 @@ import { searchJobData } from "../../libs/utils";
 export default {
   methods:{
     search(){
-      console.log(this.searchType);
-      switch(this.searchType){
-        case "搜岗位":
-        case '1':this.toJobsResult(this.key,this.API.JOBS.SEARCHJOBS);break;
-        case "搜宣讲会":
-        case '2':this.toJobsResult(this.key,this.API.EMP.SEARCHEMP);break;
-      }
+      console.log("1213")
+      console.log(this.searchInfo);
+         this.toJobsResult(this.searchInfo.searchContent,this.API.SCENIC.SEARCHSCENIC)
+      // switch(this.searchInfo.searchType){
+      //   case "搜索框":
+      //   case '1':;break;
+      // }
     },
     getClassfyJobs(e) {
       //搜索相关职位
       let that = this;
       let key = e.target.innerText;
       console.log(key);
-      this.toJobsResult(key,this.API.JOBS.SEARCHJOBS)
+      this.toJobsResult(key,this.API.SCENIC.SEARCHSCENIC)
     },
-    toJobsResult(key,url,curPage=1,pageSize=12,Search_Id="position_name"){
-      console.log(key);
-      console.log(url);
+     toJobsResult(key,url,curPage=1,pageSize=12,Search_Id="Search"){
        searchJobData(key, url,curPage,pageSize,Search_Id)
         .then(res => {
           console.log(res);
@@ -62,15 +60,8 @@ export default {
           }
           let initInfo = res.data.extendInfo.pagebean;
           initInfo["searchKey"] = key;
-          if(this.searchType == 1 || this.searchType=="搜岗位") 
-          {
-            if(this.$route.path == '/jobs')this.linkTo({name:'blank'});
-            this.replaceTo({ name: "jobs", params: initInfo });
-          }
-          else if(this.searchType == 2) {
-            if(this.$route.path == '/careerTalk') this.linkTo({name:'blank'})
-            this.replaceTo({name:'careerTalk',params:initInfo});
-          }
+          console.log(initInfo)
+          this.linkTo({name:'scenic',params:initInfo});
         })
         .catch(err => {
           console.log(err);
@@ -80,7 +71,21 @@ export default {
   data(){
     return{
       key:'',//搜索关键字,
-      searchType:'搜岗位',//搜索类型
+    //  searchType:'搜岗位',//搜索类型
+
+      pagination: {
+        //分页相关
+        curJobPage: 1, //当前职位列表页数
+        pageSize: 12, //分页容量
+        nextPage: true, //是否有下一页
+        totalPage: 1 //职位总页数
+      },
+      searchInfo: {
+        //搜索相关
+        searchContent: "", //搜索框内容
+        searchPlace: "", //搜索地区范围
+        searchType: "搜索框" //搜索内容类型
+      }
     }
   }
 }

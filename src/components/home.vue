@@ -64,7 +64,7 @@
           <div class="ad-bar">
             <div class="ad-container">
               <div
-                @click="linkTo({name:'company',params:{id:item.scenic_spot_id}})"
+                @click="linkTo({name:'scenic_detail',params:{id:item.scenic_spot_id}})"
                 v-for="(item,index) in adImgList"
                 :key="index"
                 class="vip-companys"
@@ -93,7 +93,7 @@
             <div class="post-title">
               <div class="post-head">
                 <div
-                  @click="linkTo({name:'company',params:{id:item.scenic_spot_id}})"
+                  @click="linkTo({name:'scenic_detail',params:{id:item.scenic_spot_id}})"
                   :data-job="item"
                   class="post-name"
                 >{{item.scenic_name}}</div>
@@ -209,18 +209,6 @@
             </span>
           </div>
           <div class="line-form">
-            <span class="line-item-phone">所在学校</span>
-            <span class="line-element">
-              <el-input v-model="userInfo.school" placeholder="请输入内容"></el-input>
-            </span>
-          </div>
-          <div class="line-form">
-            <span class="line-item-phone">所学专业</span>
-            <span class="line-element">
-              <el-input v-model="userInfo.major" placeholder="请输入内容"></el-input>
-            </span>
-          </div>
-          <div class="line-form">
             <span class="line-item">兴趣爱好</span>
             <span class="line-input">
               <el-input v-model="userInfo.want" placeholder="请输入内容"></el-input>
@@ -279,7 +267,7 @@ export default {
       if (!that.pagination.nextPage) return;
       that
         .axios({
-          url: this.API.JOBS.GETJOBLIST,
+          url: this.API.SCENIC.GETSCENICLIST,
           methods: "GET",
           params: {
             PageSize: that.pagination.pageSize,
@@ -326,7 +314,7 @@ export default {
     search(){
       console.log("1213")
       console.log(this.searchInfo.searchType);
-         this.toJobsResult(this.searchInfo.searchContent,this.API.JOBS.SEARCHJOBS)
+         this.toJobsResult(this.searchInfo.searchContent,this.API.SCENIC.SEARCHSCENIC)
       // switch(this.searchInfo.searchType){
       //   case "搜索框":
       //   case '1':;break;
@@ -337,7 +325,7 @@ export default {
       let that = this;
       let key = e.target.innerText;
       console.log(key);
-      this.toJobsResult(key,this.API.JOBS.SEARCHJOBS)
+      this.toJobsResult(key,this.API.SCENIC.SEARCHSCENIC)
     },
     toJobsResult(key,url,curPage=1,pageSize=12,Search_Id="Search"){
       console.log(key);
@@ -356,7 +344,7 @@ export default {
           let initInfo = res.data.extendInfo.pagebean;
           initInfo["searchKey"] = key;
           console.log(initInfo)
-          this.linkTo({name:'jobs',params:initInfo});
+          this.linkTo({name:'scenic',params:initInfo});
         })
         .catch(err => {
           console.log(err);
@@ -411,11 +399,7 @@ export default {
           "\n" +
           userInfo.sex +
           "\n" +
-          userInfo.school +
-          "\n" +
           userInfo.province +
-          "\n" +
-          userInfo.major +
           "\n" +
           userInfo.want +
           "\n" +
@@ -430,8 +414,6 @@ export default {
         params: {
           UserRealName: userInfo.name,
           UserSex: userInfo.sex,
-          UserSchool: userInfo.school,
-          UserMajor: userInfo.major,
           UserIntentionalPost: userInfo.want,
           UserProvince: userInfo.province,
           UserCity: userInfo.city,
@@ -497,8 +479,6 @@ export default {
         sex: "", //用户性别
         province: "", //用户所在省份
         city: "", //用户所在城市
-        school: "", //学校
-        major: "", //所学专业
         want: "", //求职意向
         getPush: true //是否接受推送
       },
@@ -512,104 +492,47 @@ export default {
         {
           ovallClsf: [
             //总体分类
-            "IT互联网",
-            "软件",
-            "运营",
-            "硬件"
+            "自然景观",
+            "生物景观",
+            "水域风光",
+            "峡谷景观"
           ],
           detailClsf: [
             //具体分类
-            ["软件", "数据库", "C#/.NET", "Android", "算法", "运维", "前端"],
-            ["运营", "新媒体", "内容运营", "编辑", "SEO", "产品运营"],
-            ["硬件", "嵌入式", "集成电路"],
-            ["设计", "Flash", "UI/UE", "特效", "网页/美工", "2D/3D"],
-            ["通信", "物联网", "通信", "射频"],
-            ["产品", "用户研究", "产品助理"]
+            ["生物景观", "森林景观", "草原景观", "古树名木", "奇花异卉", "自然保护"],
+            ["水域风光", "江河", "湖泊", "瀑布", "海洋", "其它水体"],
+            ["峡谷景观", "火山熔岩", "岩溶景观"],
+            ["地文景观", "岩石与矿物", "自然灾变遗迹"],
+            ["大气与太空景观", "天象奇观", "太空景观", "气候"]
           ]
         },
         {
-          ovallClsf: ["市场商务", "商务", "销售", "公关"],
+          ovallClsf: ["人文景观", "宗教", "古庙", "遗迹"],
           detailClsf: [
-            ["商务", "商务", "招投标"],
-            ["销售", "销售", "推广"],
-            ["公关", "公关", "媒介"],
-            ["客服", "客户服务", "销售支持"],
-            ["市场", "渠道", "分析/调研", "策划", "品牌", "市场"]
+            ["宗教", "宗教建筑", "宗教艺术"],
+            ["古庙", "", ""],
+            ["遗迹", "", ""],
+            ["城堡", "", ""],
+            ["宫殿", "", "", "", "", ""]
           ]
         },
         {
-          ovallClsf: ["电子电器", "电子", "电气"],
+          ovallClsf: ["民俗风情", "民俗", "民族"],
           detailClsf: [
-            ["电子", "光电", "半导体/芯片", "电子工程"],
-            ["电气", "电子设计", "电气工程"]
+            ["民俗", "", "", ""],
+            ["民族", "", ""]
           ]
         },
         {
-          ovallClsf: ["其它类型", "体育快消", "机械"],
+          ovallClsf: ["田园风光", "田园", "山寨"],
           detailClsf: [
-            ["体育快消", "快消", "体育"],
-            ["机械制造", "质量", "机械设计", "生产", "安全", "设备", "自动化"],
-            ["物流采购", "采购", "供应链", "物流"],
-            [
-              "建筑/房产",
-              "城规/市规",
-              "工程造价",
-              "建筑",
-              "土木",
-              "园林",
-              "土地开发",
-              "房产销售",
-              "排水",
-              "物业管理"
-            ],
-            ["生物医疗", "医生", "医药", "生物", "护理"],
-            ["能源环保", "矿产", "能源", "环保"],
-            ["食品材料", "材料", "食品"],
-            ["NGO公益", "志愿者"]
+            ["田园", "", ""],
+            ["山寨", "", "", "", "", "", ""]
           ]
         },
         {
-          ovallClsf: ["人力资源", "猎头", "行政"],
+          ovallClsf: ["文化资源", "文化", "故居"],
           detailClsf: [
-            ["人力资源", "人事/HR", "招聘", "企业文化"],
-            ["猎头", "猎头"],
-            ["物流采购", "采购", "供应链", "物流"],
-            ["行政", "行政", "前台", "助理"]
-          ]
-        },
-        {
-          ovallClsf: ["外语外贸", "外语", "外贸"],
-          detailClsf: [
-            ["外语", "英语", "日语", "翻译"],
-            ["外贸", "报关员", "外贸专员"]
-          ]
-        },
-        {
-          ovallClsf: ["金融法务", "金融", "投资", "法务"],
-          detailClsf: [
-            ["金融", "基金", "证券", "风控", "金融"],
-            ["投资", "分析师", "投资"],
-            ["法务", "合规", "律师", "法务"],
-            ["银行", "客户经理", "部门经理", "贷款", "大堂经理"],
-            ["保险", "业务", "保单"],
-            ["财会", "审计", "税务", "财务", "会计/出纳"]
-          ]
-        },
-        {
-          ovallClsf: ["教育咨询", "教育", "咨询"],
-          detailClsf: [
-            ["教育", "教务", "教师", "幼教", "培训", "课程"],
-            ["咨询", "咨询/顾问"]
-          ]
-        },
-        {
-          ovallClsf: ["媒体设计", "广告", "编辑", "设计"],
-          detailClsf: [
-            ["广告", "创意", "策划", "AE"],
-            ["编辑", "编辑/采编", "校对/排版"],
-            ["设计", "美术设计", "工业设计", "平面设计", "视觉设计"],
-            ["艺术", "记者", "支持/播音", "编导"],
-            ["艺术", "演艺", "摄影"]
           ]
         }
       ],
@@ -1691,8 +1614,8 @@ export default {
 .line-input {
   width: 350px;
 }
-.line-ele {
-}
+/* .line-ele {
+} */
 .line-form {
   height: 40px;
   padding: 5px 0px;

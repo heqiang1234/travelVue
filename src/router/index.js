@@ -3,13 +3,15 @@ import Router from 'vue-router'
 import login from '@/components/login'
 import register from '@/components/register/register'
 import home from '@/components/home'
-import jobs from '@/components/jobs'
-import careerTalk from '@/components/careerTalk'
-import company from '@/components/company'
-import post from '@/components/post'
+import scenic from '@/components/scenic'
+// import careerTalk from '@/components/careerTalk'
+import scenic_detail from '@/components/scenic_detail'
 import personalCenter from '@/components/personalCenter'
 import dataView from '@/components/dataView'
 import blank from '@/components/blank'
+import userfocus from '@/components/userfocus'
+import postAI from '@/components/postAI'
+import recordQuery from '@/components/recordQuery'
 
 Vue.use(Router)
 export default new Router({
@@ -30,24 +32,19 @@ export default new Router({
       component: login
     },
     {
-      path: '/jobs',
-      name: 'jobs',
-      component: jobs
+      path: '/scenic',
+      name: 'scenic',
+      component: scenic
     },
+    // {
+    //   path: '/careerTalk',
+    //   name: 'careerTalk',
+    //   component: careerTalk
+    // },
     {
-      path: '/careerTalk',
-      name: 'careerTalk',
-      component: careerTalk
-    },
-    {
-      path: '/company',
-      name: 'company',
-      component: company
-    },
-    {
-      path: '/post',
-      name: 'post',
-      component: post
+      path: '/scenic_detail',
+      name: 'scenic_detail',
+      component: scenic_detail
     },
     {
       path: '/personalCenter',
@@ -63,6 +60,21 @@ export default new Router({
       path:'/blank',
       name:'blank',
       component:blank
+    },
+    {
+      path:'/userfocus',
+      name:'userfocus',
+      component:userfocus
+    },
+    {
+      path:'/postAI',
+      name:'postAI',
+      component:postAI
+    },
+    {
+      path:'/recordQuery',
+      name:'recordQuery',
+      component:recordQuery
     }
   ]
 })

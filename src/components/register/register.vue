@@ -12,7 +12,7 @@
       </div>
       <div class="agree">
         注册即代表同意
-        <a href="#">《就业助手协议》</a>
+        <a href="#">《推荐景点协议》</a>
       </div>
       <div @click="regist" class="regist">立即注册</div>
     </div>

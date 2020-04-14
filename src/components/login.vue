@@ -11,17 +11,14 @@
             <a @click="linkTo({name:'dataView'})" href="#">数据分析</a>
           </li>
           <li>
-            <a @click="linkTo({name:'careerTalk'})" href="#">校园招聘会</a>
-          </li>
-          <li>
-            <a  @click="linkTo({name:'jobs'})" href="#">藏经阁</a>
+            <a  @click="linkTo({name:'scenic'})" href="#">热门景点</a>
           </li>
         </ul>
       </div>
     </div>
    
     <div @keyup.enter="login" class="login-body">
-      <div class="login-title">学生登录</div>
+      <div class="login-title">用户登录</div>
       <input type="text" v-model="userName" placeholder="请输入账号" autofocus>
       <input type="password" v-model="pwd" placeholder="请输入密码">
       <input  type="text" v-model="verifyCode" placeholder="请输入验证码">
@@ -33,8 +30,8 @@
       <div  @click="login" class="submit">立即登录</div>
     </div>
     <div class="login-footer">
-      <p>就业助手你的好帮手</p>
-      <span>国内领先的实习生招聘平台</span>
+      <p>推荐兴趣景点，让你享受旅行</p>
+      <span>享受旅行，热爱旅行</span>
     </div>
   </div>
 </template>
@@ -156,7 +153,7 @@ export default {
   overflow: hidden;
   width: 100%;
   height: 100vh;
-  background-image: url("../assets/bg.png");
+  background-image: url("../assets/bg2.jpg");
   background-repeat: no-repeat;
   background-size: 100% 100vh; 
 }

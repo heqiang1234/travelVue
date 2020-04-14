@@ -6,14 +6,22 @@ import router from './router'
 import {Image,Dropdown,DropdownMenu,DropdownItem,Alert,Checkbox,Message,Input,Select,Button,Option,Carousel,CarouselItem,Icon,Loading,Upload,DatePicker,Pagination,Dialog} from 'element-ui';
 import axios from 'axios';
 import echarts from 'echarts'
+import 'echarts/extension/bmap/bmap';
 Vue.prototype.$echarts = echarts 
 import API from './libs/api.js'
+import BaiduMap from 'vue-baidu-map'
+import ElementUI from 'element-ui'
 import {linkTo,replaceTo} from './libs/utils'
 axios.defaults.withCredentials=true;//让ajax携带cookie
 Vue.prototype.USERSTATUS = {
   login:false,
   userInfo:{}
 }
+Vue.use(ElementUI)
+Vue.use(BaiduMap, {
+  // ak 是在百度地图开发者平台申请的密钥 详见 http://lbsyun.baidu.com/apiconsole/key */
+  ak: 'uc3tPcyp1t5oXwGbDeifM8lztSNTnnZ3'
+})
 Vue.prototype.axios = axios; //请求插件
 Vue.prototype.API = API; //接口地址
 Vue.config.productionTip = false;
@@ -45,3 +53,4 @@ new Vue({
   router,
   render: h => h(App)
 })
+

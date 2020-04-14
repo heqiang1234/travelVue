@@ -69,6 +69,12 @@ export default {
         if(this.$route.path=="/personalCenter"){
           this.replaceTo({name:'home'})
         }
+        this.$message({
+              showClose: true,
+              message: result.log_error,
+              type: "failure"
+            });
+            return;
         }
         this.$message({
               showClose: true,
@@ -102,12 +108,17 @@ export default {
           link:{name:'dataView'}
         },
         {
-          label:'校园招聘会',
-          link:{name:'careerTalk'}
+          label:'用户关注',
+          link:{name:'userfocus'}
         },
         {
-          label:'藏经阁',
-          link:{name:'jobs'}
+          label:'浏览记录查询',
+          link:{name:'recordQuery'}
+        }
+        ,
+        {
+          label:'智能推荐',
+          link:{name:'postAI'}
         }
       ],
       curIndex:1,

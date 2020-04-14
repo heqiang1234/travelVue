@@ -101,23 +101,7 @@
         </div>
         <div class="show-msg">
           <div class="msg-items">
-            <div class="item-name">所在学校</div>
-            <div class="item-input">
-              <el-input v-model="userInfo.user_School" placeholder="请输入内容"></el-input>
-            </div>
-          </div>
-        </div>
-        <div class="show-msg">
-          <div class="msg-items">
-            <div class="item-name">所学专业</div>
-            <div class="item-input">
-              <el-input v-model="userInfo.user_Major" placeholder="请输入内容"></el-input>
-            </div>
-          </div>
-        </div>
-        <div class="show-msg">
-          <div class="msg-items">
-            <div class="item-name">求职意向</div>
+            <div class="item-name">想去地区</div>
             <div class="item-input">
               <el-input v-model="userInfo.user_IntentionalPost" placeholder="请输入内容"></el-input>
             </div>
@@ -134,7 +118,7 @@
             v-if="userInfo.user_Email"
             style="margin-left:120px;"
             v-model="userInfo.user_Status"
-            :checked="userInfo.user_Status"
+           :checked="true"
           >是否接受推送</el-checkbox>
         </div>
 
@@ -225,11 +209,7 @@ export default {
           "\n" +
           userInfo.user_Sex +
           "\n" +
-          userInfo.user_School +
-          "\n" +
           userInfo.user_Province +
-          "\n" +
-          userInfo.user_Major +
           "\n" +
           userInfo.user_IntentionalPost +
           "\n" +
@@ -246,8 +226,6 @@ export default {
         params: {
           UserRealName: userInfo.user_RealName,
           UserSex: userInfo.user_Sex,
-          UserSchool: userInfo.user_School,
-          UserMajor: userInfo.user_Major,
           UserIntentionalPost: userInfo.user_IntentionalPost,
           UserProvince: userInfo.user_Province,
           UserCity: userInfo.user_City,
@@ -265,7 +243,7 @@ export default {
         message: "修改成功",
         type: "success"
       });
-        this.$refs.header.syncUserStatus();
+        //this.$refs.header.syncUserStatus();
       });
     }
   },
@@ -280,11 +258,9 @@ export default {
         user_City: "",
         user_Email: "",
         user_IntentionalPost: "",
-        user_Major: "",
         user_Name: "",
         user_Province: "",
         user_RealName: "",
-        user_School: "",
         user_Sex: "",
         user_Status: ""
       },

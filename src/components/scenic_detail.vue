@@ -27,8 +27,7 @@
                 <span class="mp-sprites1-icon pngfix mp-description-locationicon"></span><span class="mp-description-title">位&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;置：</span><span class="mp-description-address" title="北京市海淀区清华西路28号">{{careerInfo.scenic_detail_address}}</span><a href="#mp-traffic" class="map-icon pngfix" data-click="mpdetail_map">查看地图</a>
             </div>
             <div class="mp-description-comments" style="display:block">
-                <span class="mp-sprites2-icon pngfix mp-description-commentsicon"></span><span class="mp-description-title">用户点评：</span><span id="mp-description-commentscore"><span>{{careerInfo.scenic_detail_commentscore}}</span>/5分</span>
-                <span class="mp-description-commentCount"><a href="#mp-comments">46091条评论</a></span>
+                <span class="mp-sprites2-icon pngfix mp-description-commentsicon"></span><span class="mp-description-title">用户评分：</span><span id="mp-description-commentscore"><span>{{careerInfo.scenic_detail_commentscore}}</span>/5分</span>
             </div>
             
             <div  id="mp-description-weather" class="mp-description-weather">
@@ -59,7 +58,7 @@
                     <span class="mp-description-qunar-price">
                         <em>{{careerInfo.scenic_detail_price}}</em>
                     </span>   
-                    <a href="test.html" class="mp-description-bookingbtn ">关注</a>            
+                    <button  @click="getfocus" class="mp-description-bookingbtn ">关注</button >            
             </div>
         </div>
     </div>   
@@ -68,15 +67,7 @@
             <div class="mp-charact-intro">
                 <span class="mp-charact-qutoicon pngfix"></span>
                     <div class="mp-charact-desc">
-                          <p>圆明园位于北京市西北部郊区，海淀区东部。是一座举世文明的皇家园林。原为清代一座大型皇家御苑，占地约5200亩，
-                          平面布局呈倒置的品字形，圆明园由圆明园、长春园、绮春园三园组成，总面积达350公顷。圆明园的陆上建筑面积和故宫一样大，
-                          水域面积又等于一个颐和园，总面积等于8.5个紫禁城。</p><p>圆明园汇集了当时江南若干名园胜景的特点，
-                              融中国古代造园艺术之精华，以园中之园的艺术手法，将诗情画意融化于千变万化的景象之中。圆明园的南部为朝廷区，
-                              是皇帝处理公务之所。其余地区则分布着40个景区，其中有50多处景点直接模仿外地的名园胜景，如杭州西湖十景，
-                              不仅模仿建筑，连名字也照搬过来。更有趣的是，圆明园中还建有西式园林景区，比较有代表性的就是“大水法”，
-                              是一座西洋喷泉，还有万花阵迷宫以及海晏堂等，都具有意大利文艺复兴时期的风格。圆明园于咸丰十年，即1860年的10月，
-                              遭到英法联军的洗劫和焚毁。1988年建成圆明园遗址公园，仅存山形水系、园林格局和建筑基址，假山叠石、雕刻残迹仍然可见。
-                              在“西洋楼”旧址建有园史展览馆，供人瞻仰凭吊，令人痛定思痛。</p>
+                              {{careerInfo.scenic_detail_intro}}
                     </div>
             </div>
             <div class="mp-charact-time">
@@ -164,14 +155,18 @@
 import Header from './common/header.vue'
 import Searcher from './common/searcher.vue'
 import Footsy from "./common/footsy"
+// import BMap from 'BMap' 这一行的锅
+import loadBMap from '../components/loadBMap.js'
 export default {
    components: { Header, Footsy },
   created() {
-    // console.log(this.$route.params);
     // console.log("11");
+    // console.log(this.$route.params);
+    // console.log("22");
     if (this.$route.params.id) {
       this.scenic_spot_id = this.$route.params.id;
     }
+    this.setBBrowseRecord();
     this.getScenicDetail();
     this.getBanner();
     this.getImg_desc();
@@ -179,6 +174,7 @@ export default {
     this.getTip_GG();
     this.getTip_TS();
     this.getTip_JT();
+    this.initMap();
   },
   methods: {
     formatInfo(obj) {
@@ -201,9 +197,20 @@ export default {
      // }
       return obj;
     },
+    setBBrowseRecord() {
+      this.axios({
+        url: this.API.BROWSERECORD.ADDBROWSERECORD,
+        params: {
+          scenic_spot_id: this.scenic_spot_id
+        }
+       })
+       //.then(res => {
+      //   this.careerInfo = res.data.extendInfo.pagebean;
+      // });
+    },
     getScenicDetail() {
       this.axios({
-        url: this.API.EMP.DETAILEMP,
+        url: this.API.SCENIC.DETAILSCENIC,
         params: {
           S_ID: this.scenic_spot_id
         }
@@ -268,7 +275,35 @@ export default {
         console.log(res);
         this.tip_jt = res.data.extendInfo.pagebean;
       });
-    },
+    },initMap() {
+      console.log('map init')
+      loadBMap('uc3tPcyp1t5oXwGbDeifM8lztSNTnnZ3')
+        .then((BMap) => {
+          // 百度地图API功能
+          console.log('init then')
+          console.log(BMap);
+          this.myMap = new BMap.Map("mp-traffic-map") // 创建Map实例
+         var point = new BMap.Point(117.861924,29.247904)
+          this.myMap.centerAndZoom(point, 11) // 初始化地图,设置中心点坐标和地图级别
+       
+          //添加地图类型控件
+          this.myMap.addControl(
+            new BMap.MapTypeControl({
+              mapTypes: [BMAP_NORMAL_MAP, BMAP_HYBRID_MAP]
+            })
+          )
+          var marker = new BMap.Marker(point) // 创建标注
+          this.myMap.addOverlay(marker)    // 将标注添加到地图中
+          this.myMap.setCurrentCity('北京') // 设置地图显示的城市 此项是必须设置的
+          this.myMap.enableScrollWheelZoom(true) //开启鼠标滚轮缩放
+          console.log(BMap)
+        })
+        .catch(err => {
+          console.log(err);
+          console.log('地图加载失败')
+          
+        })
+},
      getImg_desc(){
         return this.axios({
         url:this.API.OTHER.GETDETAILBANNER_SP,
@@ -278,8 +313,36 @@ export default {
       }).then(res => {
         this.Img_detail = res.data.extendInfo.list;
       });
+    },getfocus()
+    {
+        let that = this;
+         return this.axios({
+        url:this.API.USERINTER.ADDUSERINTER,
+        params: {
+            user_spot_id: this.scenic_spot_id
+          }
+      }).then(res => {
+          console.log(res)
+          if (res.data.code != "200") {
+            this.$message({
+              showClose: true,
+              message: res.data.extendInfo.log_error,
+              type: "error"
+            });
+            return;
+          }
+          that.$message({
+            showClose: true,
+            message: "关注成功！",
+            type: "success",
+            duration: 1500
+          });
+      });
     }
   },
+mounted() {
+    this.initMap()
+},
   data() {
     return {
       // scenic_spot_id: 0,
@@ -289,7 +352,8 @@ export default {
        tip_sj:{},
        tip_gg:{},
        tip_ts:{},
-       tip_jt:{}
+       tip_jt:{},
+       myMap: null
     };
   }
 };
@@ -500,10 +564,11 @@ export default {
 }
 .mp-description-qunar-price{
     vertical-align: middle;
+
 }
 .mp-description-qunar-price em {
     margin-right: 5px;
-    font-size: 40px;
+    font-size: 10px;
     color: #f60;
     font-style: inherit;
 }

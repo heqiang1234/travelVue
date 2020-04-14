@@ -4,15 +4,15 @@
         <div class="foot-title">
           <div class="ourselves">
             <span class="ourselves-title">产品服务</span>
-            <a href="#" class="ourselves-body">找实习</a>
-            <a href="#" class="ourselves-body">宣讲会</a>
-            <a href="#" class="ourselves-body">找工作</a>
+            <a href="#" class="ourselves-body">找景点</a>
+            <a href="#" class="ourselves-body">推荐会</a>
+            <a href="#" class="ourselves-body">找伙伴</a>
           </div>
           <div class="ourselves">
             <span class="ourselves-title">旗下产品</span>
-            <a href="#" class="ourselves-body">校园招聘</a>
-            <a href="#" class="ourselves-body">就业助手</a>
-            <a href="#" class="ourselves-body">找工作</a>
+            <a href="#" class="ourselves-body">景点推荐</a>
+            <a href="#" class="ourselves-body">景点助手</a>
+            <a href="#" class="ourselves-body">景点分析</a>
           </div>
           <div class="ourselves">
             <span class="ourselves-title">关于我们</span>
@@ -39,11 +39,11 @@
         </div>
         <div class="foot-body">
           <p>
-            <span>&copy;2019.2-2019.6 就业助手</span> |
+            <span>&copy;2019.2-2019.6 景点推荐系统</span> |
             <span>赣ICP备00000000号-1</span> |
-            <span>联系我们：xxx@jiuyezhushou.com</span>
+            <span>联系我们：xxx@scenicpost.com</span>
           </p>
-          <p>玉屏西科技有限责任公司版权所有 | 全国领先的实习生平台</p>
+          <p>HQ科技有限责任公司版权所有 | 针对群体景点推荐系统</p>
           <div class="internet">
             <img class="internetImg" src="../../assets/record-icon.png" alt>
             <span>赣公网安备 00000000000000号</span>

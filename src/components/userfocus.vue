@@ -8,8 +8,8 @@
           <div v-for="(item) in jobList" :key="item.scenic_spot_id" class="post-card">
             <div class="post-info">
               <div class="post-head">
-                <div @click="linkTo({name:'company',params:{id:item.scenic_spot_id}})" class="post-name">{{item.scenic_name}}</div>
-                <div class="post-pay">{{item.scenic_level}}</div>
+                <div @click="linkTo({name:'scenic_detail',params:{id:item.scenic_spot_id}})" class="post-name">{{item.scenic_name}}</div>
+                <div class="post-pay">{{item.scenic_crawltime}}</div>
               </div>
               <div class="post-body">
                 <div class="post-others">
@@ -20,7 +20,9 @@
             </div>
             <div class="company-info">
               <div class="company-name">
-                <a href="#">{{item.scenic_level}}</a>
+                <a href="#">{{item.scenic_level}}</a> 
+                 <!-- <button  @click="deletefocus(item.scenic_id)" class="mp-description-bookingbtn">删除</button >     -->
+                  <button  @click="confDelete(item.scenic_id)" class="mp-description-bookingbtn">删除</button > 
               </div>
               <div class="company-infor">{{item.scenic_address}} | {{item.scenic_feature}}</div>
             </div>
@@ -29,6 +31,7 @@
                 <img :src="item.scenic_img" alt>
               </div>
             </div>
+              
           </div>
           
         </div>
@@ -68,40 +71,17 @@ import Footsy from "./common/footsy"
 export default {
   components:{Header,Searcher,Footsy},
   created(){
-    let options = this.$route.params;
-    console.log(options);
-    if(JSON.stringify(options)==='{}'){
       this.getMethodList();
-      return;
-    }
-    this.jobList = options.lists;
-    this.curPage = options.currPage;
-    this.key = options.searchKey
-    console.log(this.jobList)
-    console.log(this.curPage)
-    console.log(this.key)
-    if(options.totalPage > this.curPage+9){
-      this.pageCount = this.curPage+9;
-    }
-    else{
-      this.pageCount = options.totalPage
-    }
-    console.log(this.pageCount)
   },
   methods:{
     getMethodList(){
-      //搜索相关职位
       let that = this;
-      let key = this.key
-      that
-        .axios({
-          url: that.API.JOBS.SEARCHJOBS,
+       this.axios({
+          url: that.API.USERINTER.GETUSERINTER,
           methods: "GET",
           params: {
             CurrentPage: that.curPage,
             PageSize: that.pageSize,
-            Search_Id: "Search",
-            Search_Name: key
           }
         })
         .then(res => {
@@ -112,9 +92,15 @@ export default {
               message: res.data.extendInfo.log_error,
               type: "error"
             });
+            setTimeout(() => {
+            this.replaceTo({
+              path: "/login"
+            });
+          }, 1000);
             return;
           }
           that.jobList = res.data.extendInfo.pagebean.lists;
+          console.log(res.data.extendInfo.pagebean.lists);
           that.curPage = res.data.extendInfo.pagebean.currPage;
           if(res.data.extendInfo.pagebean.totalPage > that.curPage+9){
             that.pageCount = that.curPage+9;
@@ -122,7 +108,6 @@ export default {
           else{
             that.pageCount = res.data.extendInfo.pagebean.totalPage
           }
-          
           })
         .catch(err => {
           console.log(err);
@@ -131,7 +116,77 @@ export default {
     handleCurrentChange(val){
       this.curJobPage = val;
       this.getMethodList();
-    }
+    },
+   deletefocus(val){
+        let that = this;
+        console.log(val)
+         return this.axios({
+        url:this.API.USERINTER.DELUSERINTER,
+        params: {
+            user_interest_id:val
+          }
+      }).then(res => {
+          console.log(res)
+          if (res.data.code != "200") {
+            this.$message({
+              showClose: true,
+              message: res.data.extendInfo.log_error,
+              type: "error"
+            });
+            return;
+          }
+          that.$message({
+            showClose: true,
+            message: "取消关注成功！",
+            type: "success",
+            duration: 1500
+          });
+          this.getMethodList();
+      });
+    },
+    confDelete(val) {
+        this.$confirm('此操作将取消关注, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$message({
+            type: 'success',
+            message: '取消成功!'
+          });
+           let that = this;
+        console.log(val)
+         return this.axios({
+        url:this.API.USERINTER.DELUSERINTER,
+        params: {
+            user_interest_id:val
+          }
+      }).then(res => {
+          console.log(res)
+          if (res.data.code != "200") {
+            this.$message({
+              showClose: true,
+              message: res.data.extendInfo.log_error,
+              type: "error"
+            });
+            return;
+          }
+          that.$message({
+            showClose: true,
+            message: "取消关注成功！",
+            type: "success",
+            duration: 1500
+          });
+          this.getMethodList();
+      });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });          
+        });
+
+      }
   },
   data(){
     return{
@@ -140,7 +195,8 @@ export default {
       totalCount:1,//总条目数
       pageSize:12,//分页容量
       pageCount:10, //分页数量
-      key:''//搜索关键字
+      key:'',//搜索关键字
+      type:''
     }
   }
 };
@@ -365,6 +421,18 @@ export default {
 .jobs-pagetab{
   text-align: center;
   margin-top:20px;
+}
+.mp-description-bookingbtn {
+    width: 30px;
+    height: 15px;
+    background-color: #f60;
+    color: #fff;
+    text-align: center;
+    display: inline-block;
+    line-height: 10px;
+    font-size: 7px;
+    right: 0;
+    text-decoration: none;
 }
 </style>
 
